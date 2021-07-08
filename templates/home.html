@@ -1,0 +1,55 @@
+{% extends 'base.html'%} {% block content%}
+<div
+  id="background-image"
+  class="bg-image"
+  style="
+    background-image: url('https://cdn.searchenginejournal.com/wp-content/uploads/2018/10/shutterstock_750610873-760x400.png');
+    height: 100%;
+    width: 100%;
+    background-repeat: no-repeat;
+    background-size: cover;
+  "
+>
+  <div id="nav-bar">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-success">
+      <div class="container-fluid">
+        <div class="collapse navbar-collapse" id="navbarText">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="#">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/signup">SignUp</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/login">Login</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </div>
+  <div class="container text-center">
+    <h1 class="display-3 text-success"><b>Welcome to Home page</b></h1>
+    <h3 class="mt-5 text-light">
+      <p>
+        Electric cars are really very cool. Air-source heat pumps are great.
+      </p>
+      <p>The time is right for electric cars - in fact the time is critical.</p>
+    </h3>
+    <form action="">
+      <div class="input-group mt-5">
+        <input type="text" class="form-control" placeholder="Enter location" />
+        <button class="btn btn-primary" type="button" id="search-button">
+          Search
+        </button>
+      </div>
+      <p>
+        <span class="form-text text-light"
+          >Please be specific for location.</span
+        >
+      </p>
+    </form>
+  </div>
+</div>
+{% endblock %}
