@@ -1,9 +1,10 @@
-from flask import Flask, config, redirect, render_template, flash, session
+from flask import Flask, redirect, render_template, flash, session, request
 from models import User, connect_db, db
 import os
-from secret import SECRET_KEY
+from secret import SECRET_KEY, OPEN_CHARGE_MAP_KEY, MAP_KEY
 from forms import SignUpForm, LoginForm
 from sqlalchemy.exc import IntegrityError
+import requests
 
 app = Flask(__name__)
 
@@ -13,6 +14,10 @@ app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get(
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config['SQLALCHEMY_ECHO'] = True
 app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
+
+
+API_BASE_URL = 'https://api.openchargemap.io/v3/poi/'
+MAP_BASE_URL = 'http://open.mapquestapi.com/geocoding/v1/'
 
 # toolbar = DebugToolbarExtension(app)
 
@@ -30,9 +35,41 @@ def home_page():
     return render_template('home.html')
 
 
+def get_coords(location):
+
+    res = requests.get(f'{MAP_BASE_URL}/address',
+                       params={'key': MAP_KEY, 'location': location})
+    data = res.json()
+    lat = data['results'][0]['locations'][0]['latLng']['lat']
+    lng = data['results'][0]['locations'][0]['latLng']['lng']
+    coords = {'lat': lat, 'lng': lng}
+    return coords
+
+
+def get_info(coords):
+
+    latitude = coords['lat']
+    longitude = coords['lng']
+
+    response = requests.get(f'{API_BASE_URL}', params={'key': OPEN_CHARGE_MAP_KEY,
+                            'countrycode': 'US', 'latitude': latitude, 'longitude': longitude, 'maxresults': 20})
+    print(response.json())
+    return response.json()
+
+
+@ app.route('/results')
+def search_result():
+
+    location = request.args['location']
+
+    coords = get_coords(location)
+    result = get_info(coords)
+    return render_template('result.html', result=result)
+
 ######################## Login/Signup/Logout #######################
 
-@app.route('/login', methods=['GET', 'POST'])
+
+@ app.route('/login', methods=['GET', 'POST'])
 def login_page():
 
     form = LoginForm()
@@ -52,7 +89,7 @@ def login_page():
     return render_template('login.html', form=form)
 
 
-@app.route('/signup', methods=['GET', 'POST'])
+@ app.route('/signup', methods=['GET', 'POST'])
 def signup_page():
 
     form = SignUpForm()
