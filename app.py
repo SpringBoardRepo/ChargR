@@ -1,3 +1,4 @@
+import json
 from flask import Flask, redirect, render_template, flash, session, request
 from models import User, connect_db, db
 import os
@@ -46,15 +47,22 @@ def get_coords(location):
     return coords
 
 
+def get_results(data):
+    """turn json into python"""
+
+    res = json.loads(data.text)
+    return res
+
+
 def get_info(coords):
 
     latitude = coords['lat']
     longitude = coords['lng']
 
     response = requests.get(f'{API_BASE_URL}', params={'key': OPEN_CHARGE_MAP_KEY,
-                            'countrycode': 'US', 'latitude': latitude, 'longitude': longitude, 'maxresults': 20})
+                            'countrycode': 'US', 'latitude': latitude, 'longitude': longitude})
     print(response.json())
-    return response.json()
+    return get_results(response)
 
 
 @ app.route('/results')
@@ -64,6 +72,7 @@ def search_result():
 
     coords = get_coords(location)
     result = get_info(coords)
+
     return render_template('result.html', result=result)
 
 ######################## Login/Signup/Logout #######################
