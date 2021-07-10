@@ -43,18 +43,16 @@
           type="text"
           class="form-control"
           placeholder="Enter location"
-          name="location"
+          name="location" required 
         />
         <button class="btn btn-primary" type="submit" id="search-button">
           Search
         </button>
       </div>
-      <p>
-        <span class="form-text text-light"
-          >Please be specific for location.</span
-        >
-      </p>
     </form>
+     <p>
+        <h6 class="text-danger"> <b>Please be specific for location(Ex.San Jose,CA)</b> </h6>
+      </p>
   </div>
 </div>
 {% endblock %}
