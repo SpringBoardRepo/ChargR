@@ -1,0 +1,44 @@
+{% extends 'base.html' %} {% block content %}
+<div class="container">
+  {% for d in data %}
+
+  <div class="card text-left">
+    <ul>
+      <h4>Location Detail</h4>
+      <p>{{d.AddressInfo.Title}}</p>
+      <p>{{d.AddressInfo.AddressLine1}}</p>
+      <p>{{d.AddressInfo.Town}} {{d.AddressInfo.StateOrProvince}}</p>
+      <p>{{d.AddressInfo.Postcode}}</p>
+      <p>{{d.AddressInfo.ContactTelephone1}}</p>
+      <p>{{d.AddressInfo.Country.Title}}</p>
+    </ul>
+  </div>
+  <div class="card text-left">
+    <ul>
+      <h4>Usage Restrictions</h4>
+      <p><b> Operational Status - </b> {{d.StatusType.Title}}</p>
+      <p><b>Usage - </b>{{d.UsageType.Title}}</p>
+    </ul>
+  </div>
+  <div class="card text-left">
+    <ul>
+      <h4>Equipment Details</h4>
+      <p>Connections - {{d.Connections.0.ConnectionType.Title}}</p>
+      <p>
+        PowerKW -{{d.Connections.0.PowerKW}}KW currentType -
+        {{d.Connections.0.Amps}}A {{d.Connections.0.Voltage}}V
+      </p>
+    </ul>
+  </div>
+</div>
+{% endfor %} {% endblock %}
+
+<!-- Usage Restictions
+ IsOperational - [0].['StatusType'].['Title'] 
+ titie -  [0].['UsageType'].['Title'] -->
+
+<!-- Equipment Details
+ connections - [0].['Connections'][0].['ConnectionType'].['Title'] 
+ PowerKw - [0].['Connections'][0].['PowerKW']
+ currentType - [0].['Connections'][0].['Amps']/['Voltage']
+-->

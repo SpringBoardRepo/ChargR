@@ -35,8 +35,11 @@ def start():
 def home_page():
     return render_template('home.html')
 
+########################### Location And Coords ######################################
+
 
 def get_coords(location):
+    """Get the location and return Latitude and Longitude """
 
     res = requests.get(f'{MAP_BASE_URL}/address',
                        params={'key': MAP_KEY, 'location': location})
@@ -55,19 +58,19 @@ def get_results(data):
 
 
 def get_info(coords):
-
+    """Get the coords and return data """
     latitude = coords['lat']
     longitude = coords['lng']
 
     response = requests.get(f'{API_BASE_URL}', params={'key': OPEN_CHARGE_MAP_KEY,
                             'countrycode': 'US', 'latitude': latitude, 'longitude': longitude})
-    print(response.json())
+
     return get_results(response)
 
 
 @ app.route('/results')
 def search_result():
-
+    """"Show the all results """
     location = request.args['location']
 
     coords = get_coords(location)
@@ -80,7 +83,7 @@ def search_result():
 
 @ app.route('/login', methods=['GET', 'POST'])
 def login_page():
-
+    """" User Login"""
     form = LoginForm()
 
     if form.validate_on_submit():
@@ -91,16 +94,24 @@ def login_page():
         if user:
             session['username'] = user.username
             flash(f'Welcome back!,{user.username}', 'success')
-            return redirect(f'/users/{user.username}')
+            return redirect(f'/home')
         else:
             form.username.errors = ['Invalid usename/password']
 
     return render_template('login.html', form=form)
 
 
+@app.route('/logout')
+def logout():
+    """" User Logout """
+    session.pop('username')
+    flash('Successfully logout', 'success')
+    return redirect('/home')
+
+
 @ app.route('/signup', methods=['GET', 'POST'])
 def signup_page():
-
+    """" User SignUp"""
     form = SignUpForm()
 
     if form.validate_on_submit():
@@ -125,3 +136,13 @@ def signup_page():
         return redirect('/home')
 
     return render_template('signup.html', form=form)
+
+############################## Station Details ###########################
+
+
+@app.route('/station/detail/<int:id>')
+def station_detail_page(id):
+    response = requests.get(API_BASE_URL, params={
+        'key': OPEN_CHARGE_MAP_KEY, 'countrycode': 'US', 'ID': id})
+    data = get_results(response)
+    return render_template('details.html', data=data)

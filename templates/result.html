@@ -3,11 +3,11 @@
   {% for loc in result %}
   <ul>
     <div class="card text-center w-75">
-      <h5 class="card-title mt-2">{{loc.OperatorInfo.Title}}</h5>
+      <h5 class="card-title mt-2">{{loc.AddressInfo.Title}}</h5>
 
       <p class="display-inline">
         <b> Address -</b>
-        {{loc.AddressInfo.Title}} {{loc.AddressInfo.AddressLine1}}
+        {{loc.AddressInfo.AddressLine1}}
       </p>
       <p class="display-inline">
         <b>Town - </b>
@@ -26,7 +26,7 @@
         {{loc.AddressInfo.ContactTelephone1}}
       </p>
 
-      <a href="#" class="btn btn-success">More Info</a>
+      <a href="/station/detail/{{loc.ID}}" class="btn btn-success">More Info</a>
     </div>
   </ul>
   {% endfor %}
