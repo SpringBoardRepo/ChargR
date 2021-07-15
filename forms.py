@@ -6,7 +6,7 @@ from wtforms.fields.simple import PasswordField
 
 class LoginForm(FlaskForm):
 
-    username = StringField('Username', validators=[validators.InputRequired()])
+    email = StringField('Email', validators=[validators.InputRequired()])
 
     password = PasswordField('Password', validators=[
                              validators.InputRequired()])
@@ -26,3 +26,8 @@ class SignUpForm(FlaskForm):
                              validators.InputRequired()])
 
     email = StringField('Email', validators=[validators.InputRequired()])
+
+
+class FeedbackForm(FlaskForm):
+
+    content = StringField('Comment', validators=[validators.InputRequired()])
