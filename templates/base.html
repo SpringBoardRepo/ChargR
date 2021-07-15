@@ -22,11 +22,22 @@
       {% endfor %}
     </div>
     <div id="nav-bar">
-      <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-success">
+      <nav class="navbar fixed-top navbar-expand-md navbar-dark bg-secondary">
         <div class="container-fluid">
           <div class="collapse navbar-collapse" id="navbarText">
-            <a class="nav-link active navbar-brand" aria-current="page" href="#"
-              >Home</a
+            <a
+              class="nav-link active navbar-brand"
+              aria-current="page"
+              href="/home"
+            >
+              <img
+                src="https://e7.pngegg.com/pngimages/23/830/png-clipart-electric-vehicle-electric-car-toyota-prius-charging-station-automotive-battery-leaf-logo.png"
+                alt=""
+                width="40"
+                height="30"
+                class="d-inline-block align-text-top"
+              />
+              ChargR</a
             >
             <ul class="navbar-nav nav justify-content-end me-auto mb-2 mb-lg-0">
               {% if session['username'] %}

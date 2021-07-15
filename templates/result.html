@@ -2,7 +2,7 @@
 <div class="container">
   {% for loc in result %}
   <ul>
-    <div class="card text-center w-75">
+    <div class="card text-center w-75 mt-5">
       <h5 class="card-title mt-2">{{loc.AddressInfo.Title}}</h5>
 
       <p class="display-inline">
@@ -26,7 +26,7 @@
         {{loc.AddressInfo.ContactTelephone1}}
       </p>
 
-      <a href="/station/detail/{{loc.ID}}" class="btn btn-success">More Info</a>
+      <a href="/station/detail/{{loc.ID}}" class="btn btn-primary">More Info</a>
     </div>
   </ul>
   {% endfor %}
