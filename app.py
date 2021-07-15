@@ -1,17 +1,17 @@
 import json
 from flask import Flask, redirect, render_template, flash, session, request
-from models import User, connect_db, db
+from models import Comment, User, connect_db, db
 import os
-from secret import SECRET_KEY, OPEN_CHARGE_MAP_KEY, MAP_KEY
-from forms import SignUpForm, LoginForm
+from secret import LOCAL_SECRET_KEY, OPEN_CHARGE_MAP_KEY, MAP_KEY, PSQL_PASS
+from forms import SignUpForm, LoginForm, FeedbackForm
 from sqlalchemy.exc import IntegrityError
 import requests
 
 app = Flask(__name__)
 
-app.config["SECRET_KEY"] = os.environ.get('SECERT_KEY', SECRET_KEY)
+app.config["SECRET_KEY"] = os.environ.get('SECERT_KEY', LOCAL_SECRET_KEY)
 app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get(
-    'DATABASE_URL', "postgresql://localhost/chargR?user=postgres&password=postgresql")
+    'DATABASE_URL', f"postgresql://localhost/chargR?user=postgres&password={PSQL_PASS}")
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config['SQLALCHEMY_ECHO'] = True
 app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
@@ -68,7 +68,7 @@ def get_info(coords):
     return get_results(response)
 
 
-@ app.route('/results')
+@ app.route('/station/results')
 def search_result():
     """"Show the all results """
     location = request.args['location']
@@ -87,16 +87,16 @@ def login_page():
     form = LoginForm()
 
     if form.validate_on_submit():
-        username = form.username.data
+        email = form.email.data
         password = form.password.data
 
-        user = User.authenticate(username, password)
+        user = User.authenticate(email, password)
         if user:
             session['username'] = user.username
             flash(f'Welcome back!,{user.username}', 'success')
             return redirect(f'/home')
         else:
-            form.username.errors = ['Invalid usename/password']
+            form.email.errors = ['Invalid username/password']
 
     return render_template('login.html', form=form)
 
@@ -145,4 +145,5 @@ def station_detail_page(id):
     response = requests.get(API_BASE_URL, params={
         'key': OPEN_CHARGE_MAP_KEY, 'countrycode': 'US', 'ID': id})
     data = get_results(response)
-    return render_template('details.html', data=data)
+    user = User.query.all()
+    return render_template('details.html', data=data, user=user)
