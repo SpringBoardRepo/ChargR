@@ -1,0 +1,7 @@
+{% extends 'details.html' %} {% block feedbacks %} {% for feedback in feedbacks
+%}
+<h1>stationfeedback</h1>
+<ul>
+  {% for comment in comments %} {{comment.username}} {% endfor %}
+</ul>
+{% endfor %}{% endblock %}

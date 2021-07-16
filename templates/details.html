@@ -36,9 +36,18 @@
         </ul>
     </div>
     <div>
-        <a href="/add-comment"class="btn btn-warning">Add Comment</a>
-        <p><b>Comments</b></p>
+        <form action="" method="POST">
+            {% if session['username'] %}  
+                <a href="/station/detail/{{d.ID}}/add-comment/{{session['username']}}"class="btn btn-warning">Leave a Feedback </a>
+            {% else %}
+                <a href="/login" class="btn btn-info">Login to give a feedback </a>
+            {% endif %}
+       </form>
+       <p><b>Comments</b></p>
     </div>
     
 </div>
-{% endfor %} {% endblock %}
+
+{% block feedbacks %} {% endblock %}
+{% endfor %}
+ {% endblock %}

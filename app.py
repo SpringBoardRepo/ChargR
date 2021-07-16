@@ -145,5 +145,35 @@ def station_detail_page(id):
     response = requests.get(API_BASE_URL, params={
         'key': OPEN_CHARGE_MAP_KEY, 'countrycode': 'US', 'ID': id})
     data = get_results(response)
+    return render_template('details.html', data=data)
+
+
+############################# User Feedback ###############################
+
+
+@app.route('/station/detail/<string:username>')
+def users_feedbacks(username):
+    print('inside station route')
     user = User.query.all()
-    return render_template('details.html', data=data, user=user)
+    print(user)
+    comments = Comment.query.filter_by(user_name=username)
+    print(comments)
+
+    return render_template('stationfeedback.html', comments=comments)
+
+
+@app.route('/station/detail/<int:station_id>/add-comment/<string:username>', methods=['GET', 'POST'])
+def add_feedback(station_id, username):
+
+    form = FeedbackForm()
+    if form.validate_on_submit():
+
+        content = form.content.data
+
+        comment = Comment(comment=content, user_name=username,
+                          station_id=station_id)
+
+        db.session.add(comment)
+        db.session.commit()
+        return redirect(f'/station/detail/{username}')
+    return render_template('feedback.html', form=form)
