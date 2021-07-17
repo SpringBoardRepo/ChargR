@@ -1,8 +1,8 @@
-import json
-from flask import Flask, redirect, render_template, flash, session, request
+
+from flask import Flask, redirect, render_template, flash, session, request, jsonify
 from models import Comment, User, connect_db, db
 import os
-from secret import LOCAL_SECRET_KEY, OPEN_CHARGE_MAP_KEY, MAP_KEY, PSQL_PASS
+from secret import LOCAL_SECRET_KEY, OPEN_CHARGE_MAP_KEY, PSQL_PASS, MAP_BOX_API_KEY, PSQL_USER
 from forms import SignUpForm, LoginForm, FeedbackForm
 from sqlalchemy.exc import IntegrityError
 import requests
@@ -11,15 +11,14 @@ app = Flask(__name__)
 
 app.config["SECRET_KEY"] = os.environ.get('SECERT_KEY', LOCAL_SECRET_KEY)
 app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get(
-    'DATABASE_URL', f"postgresql://localhost/chargR?user=postgres&password={PSQL_PASS}")
+    'DATABASE_URL', f"postgresql://localhost/chargR?user={PSQL_USER}&password={PSQL_PASS}")
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config['SQLALCHEMY_ECHO'] = True
 app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 
 
 API_BASE_URL = 'https://api.openchargemap.io/v3/poi/'
-MAP_BASE_URL = 'http://open.mapquestapi.com/geocoding/v1/'
-
+MAP_BOX_BASE_URL = "https://api.mapbox.com/geocoding/v5/mapbox.places/"
 # toolbar = DebugToolbarExtension(app)
 
 connect_db(app)
@@ -40,21 +39,20 @@ def home_page():
 
 def get_coords(location):
     """Get the location and return Latitude and Longitude """
+    res = requests.get(
+        f'{MAP_BOX_BASE_URL}{location}.json?access_token={MAP_BOX_API_KEY}')
 
-    res = requests.get(f'{MAP_BASE_URL}/address',
-                       params={'key': MAP_KEY, 'location': location})
     data = res.json()
-    lat = data['results'][0]['locations'][0]['latLng']['lat']
-    lng = data['results'][0]['locations'][0]['latLng']['lng']
+    lat = data['features'][0]['center'][1]
+    lng = data['features'][0]['center'][0]
     coords = {'lat': lat, 'lng': lng}
     return coords
 
+# def get_results(data):
+#     """turn json into python"""
 
-def get_results(data):
-    """turn json into python"""
-
-    res = json.loads(data.text)
-    return res
+#     res = json.loads(data.text)
+#     return res
 
 
 def get_info(coords):
@@ -63,9 +61,9 @@ def get_info(coords):
     longitude = coords['lng']
 
     response = requests.get(f'{API_BASE_URL}', params={'key': OPEN_CHARGE_MAP_KEY,
-                            'countrycode': 'US', 'latitude': latitude, 'longitude': longitude})
+                                                       'countrycode': 'US', 'latitude': latitude, 'longitude': longitude})
 
-    return get_results(response)
+    return response.json()
 
 
 @ app.route('/station/results')
@@ -101,7 +99,7 @@ def login_page():
     return render_template('login.html', form=form)
 
 
-@app.route('/logout')
+@ app.route('/logout')
 def logout():
     """" User Logout """
     session.pop('username')
@@ -140,40 +138,30 @@ def signup_page():
 ############################## Station Details ###########################
 
 
-@app.route('/station/detail/<int:id>')
+@ app.route('/station/detail/<int:id>')
 def station_detail_page(id):
     response = requests.get(API_BASE_URL, params={
         'key': OPEN_CHARGE_MAP_KEY, 'countrycode': 'US', 'ID': id})
-    data = get_results(response)
-    return render_template('details.html', data=data)
+    data = response.json()
+    comments = Comment.query.filter_by(station_id=id)
+    return render_template('details.html', data=data, comments=comments)
 
 
 ############################# User Feedback ###############################
 
 
-@app.route('/station/detail/<string:username>')
-def users_feedbacks(username):
-    print('inside station route')
-    user = User.query.all()
-    print(user)
-    comments = Comment.query.filter_by(user_name=username)
-    print(comments)
-
-    return render_template('stationfeedback.html', comments=comments)
-
-
-@app.route('/station/detail/<int:station_id>/add-comment/<string:username>', methods=['GET', 'POST'])
+@ app.route('/station/detail/<int:station_id>/add-comment/<string:username>', methods=['GET', 'POST'])
 def add_feedback(station_id, username):
 
     form = FeedbackForm()
     if form.validate_on_submit():
 
-        content = form.content.data
+        comment = form.comment.data
 
-        comment = Comment(comment=content, user_name=username,
+        comment = Comment(comment=comment, user_name=username,
                           station_id=station_id)
 
         db.session.add(comment)
         db.session.commit()
-        return redirect(f'/station/detail/{username}')
+        return redirect(f'/station/detail/{station_id}')
     return render_template('feedback.html', form=form)
