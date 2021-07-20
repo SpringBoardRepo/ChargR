@@ -126,8 +126,8 @@ def signup_page():
         try:
             db.session.commit()
         except IntegrityError:
-            form.username.errors.append('Username taken.  Please pick another')
-            return render_template('register.html', form=form)
+            form.username.errors.append('Username taken. Please pick another')
+            return render_template('signup.html', form=form)
 
         session['username'] = new_user.username
         flash('Welcome, Successfully Created Your Account', 'success')
@@ -148,7 +148,6 @@ def station_detail_page(id):
 
 
 ############################# User Feedback ###############################
-
 
 @ app.route('/station/detail/<int:station_id>/add-comment/<string:username>', methods=['GET', 'POST'])
 def add_feedback(station_id, username):
