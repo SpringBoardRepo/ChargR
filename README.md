@@ -2,4 +2,4 @@
 
 **Api's**
  - Open Charge Map `https://openchargemap.org/site/develop/api`
- - MapQuest `https://developer.mapquest.com/`(for geolocation)  
+ - MapBox `https://docs.mapbox.com/api/search/geocoding/`(for geolocation)  
