@@ -2,7 +2,7 @@
 from flask import Flask, config, redirect, render_template, flash, session, request, jsonify
 from models import Comment, User, connect_db, db
 import os
-from secret import LOCAL_SECRET_KEY, OPEN_CHARGE_MAP_KEY, PSQL_PASS, MAP_BOX_API_KEY, PSQL_USER
+# from secret import LOCAL_SECRET_KEY, OPEN_CHARGE_MAP_KEY, PSQL_PASS, MAP_BOX_API_KEY, PSQL_USER
 from forms import SignUpForm, LoginForm, FeedbackForm
 from sqlalchemy.exc import IntegrityError
 import requests
