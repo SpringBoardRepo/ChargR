@@ -1,17 +1,23 @@
 
-from flask import Flask, redirect, render_template, flash, session, request, jsonify
+from flask import Flask, config, redirect, render_template, flash, session, request, jsonify
 from models import Comment, User, connect_db, db
 import os
-from secret import LOCAL_SECRET_KEY, OPEN_CHARGE_MAP_KEY, PSQL_PASS, MAP_BOX_API_KEY, PSQL_USER
+# from secret import LOCAL_SECRET_KEY, OPEN_CHARGE_MAP_KEY, PSQL_PASS, MAP_BOX_API_KEY, PSQL_USER
 from forms import SignUpForm, LoginForm, FeedbackForm
 from sqlalchemy.exc import IntegrityError
 import requests
 
 app = Flask(__name__)
 
+LOCAL_SECRET_KEY = config['LOCAL_SECRET_KEY']
+OPEN_CHARGE_MAP_KEY = config['OPEN_CHARGE_MAP_KEY']
+MAP_BOX_API_KEY = config['MAP_BOX_API_KEY']
+
 app.config["SECRET_KEY"] = os.environ.get('SECERT_KEY', LOCAL_SECRET_KEY)
+app.config["API_KEY"] = os.environ.get('API_KEY', OPEN_CHARGE_MAP_KEY)
+app.config["MAP_BOX_KEY"] = os.environ.get('MAP_BOX_KEY', MAP_BOX_API_KEY)
 app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get(
-    'DATABASE_URL', f"postgresql://localhost/chargR?user={PSQL_USER}&password={PSQL_PASS}")
+    'DATABASE_URL', f"postgresql://localhost/chargR?user=postgres&password=postgresql")
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config['SQLALCHEMY_ECHO'] = True
 app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
