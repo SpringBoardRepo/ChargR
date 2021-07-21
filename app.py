@@ -15,7 +15,7 @@ app = Flask(__name__)
 
 OPEN_CHARGE_MAP_KEY = os.environ.get('OPEN_CHARGE_MAP_KEY')
 MAP_BOX_API_KEY = os.environ.get('MAP_BOX_API_KEY')
-LOCAL_SECRET_KEY = os.environ.get('LOCAL_SECRET_KEY')
+LOCAL_SECRET_KEY = os.environ.get('SECRET_KEY')
 
 app.config["SECRET_KEY"] = os.environ.get('SECERT_KEY', LOCAL_SECRET_KEY)
 app.config["OPEN_CHARGE_MAP_KEY"] = os.environ.get(
