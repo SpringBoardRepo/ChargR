@@ -9,9 +9,9 @@ import requests
 
 app = Flask(__name__)
 
-LOCAL_SECRET_KEY = config['LOCAL_SECRET_KEY']
-OPEN_CHARGE_MAP_KEY = config['OPEN_CHARGE_MAP_KEY']
-MAP_BOX_API_KEY = config['MAP_BOX_API_KEY']
+LOCAL_SECRET_KEY = config('LOCAL_SECRET_KEY')
+OPEN_CHARGE_MAP_KEY = config('OPEN_CHARGE_MAP_KEY')
+MAP_BOX_API_KEY = config('MAP_BOX_API_KEY')
 
 app.config["SECRET_KEY"] = os.environ.get('SECERT_KEY', LOCAL_SECRET_KEY)
 app.config["API_KEY"] = os.environ.get('API_KEY', OPEN_CHARGE_MAP_KEY)
