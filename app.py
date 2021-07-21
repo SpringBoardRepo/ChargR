@@ -22,8 +22,11 @@ app.config["OPEN_CHARGE_MAP_KEY"] = os.environ.get(
     'OPEN_CHARGE_MAP_KEY', OPEN_CHARGE_MAP_KEY)
 app.config["MAP_BOX_API_KEY"] = os.environ.get(
     'MAP_BOX_API_KEY', MAP_BOX_API_KEY)
+
+
 app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get(
-    'DATABASE_URL', f"postgresql://localhost/chargR?user=postgres&password=postgresql")
+    'DATABASE_URL', f"postgresql://localhost/chargR?user=postgres&password=postgresql").replace(
+        "postgres://", "postgresql://", 1)
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config['SQLALCHEMY_ECHO'] = True
 app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
