@@ -4,7 +4,7 @@
 
     <div class="card text-left mt-5">
         <ul>
-            <h6 class="card-title mt-3 display-6 d-block bg-success bg-gradient text-light">{{d.OperatorInfo.Title}}</h6>
+            <h6 class="card-title mt-3 display-4 d-block bg-success bg-gradient text-light">{{d.OperatorInfo.Title}}</h6>
             <h6><i class="fas fa-location-arrow mt-3"></i>Location Detail</h6>
                 <p class="card-text">
                     <p>{{d.AddressInfo.Title}}</p>
@@ -32,11 +32,12 @@
         <ul>
             <h6 class="card-title mt-2"><i class="fas fa-charging-station"></i></i>Equipment Details</h6>
             <p class="card-text">
+                {% for conn in d.Connections %}
                 <p>Connections -
-                    {{d.Connections.0.ConnectionType.Title}}</p>
-                
-                <p> PowerKW -{{d.Connections.0.PowerKW}}KW CurrentType - {{d.Connections.0.Amps}}A {{d.Connections.0.Voltage}}V </p>
-                {{d.Connections.0.CurrentType.Title}}
+                    <b> {{conn.ConnectionType.Title}} </b></p>
+                <p> PowerKW -{{conn.PowerKW}}KW CurrentType - {{conn.Amps}}A {{conn.Voltage}}V </p>
+                  {{conn.CurrentType.Title}} 
+                {% endfor %}
             </p>
      
         </ul>
