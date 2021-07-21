@@ -59,3 +59,5 @@ class Comment(db.Model):
     comment = db.Column(db.Text, nullable=False)
 
     user_name = db.Column(db.Text, db.ForeignKey('users.username'))
+
+    station_id = db.Column(db.Integer, nullable=False)
