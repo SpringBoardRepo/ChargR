@@ -13,9 +13,15 @@ app = Flask(__name__)
 # MAP_BOX_API_KEY = config('MAP_BOX_API_KEY')
 # LOCAL_SECRET_KEY = config('LOCAL_SECRET_KEY')
 
+OPEN_CHARGE_MAP_KEY = os.environ.get('OPEN_CHARGE_MAP_KEY')
+MAP_BOX_API_KEY = os.environ.get('MAP_BOX_API_KEY')
+LOCAL_SECRET_KEY = os.environ.get('LOCAL_SECRET_KEY')
+
 app.config["SECRET_KEY"] = os.environ.get('SECERT_KEY', LOCAL_SECRET_KEY)
-app.config["API_KEY"] = os.environ.get('API_KEY', OPEN_CHARGE_MAP_KEY)
-app.config["MAP_BOX_KEY"] = os.environ.get('MAP_BOX_KEY', MAP_BOX_API_KEY)
+app.config["OPEN_CHARGE_MAP_KEY"] = os.environ.get(
+    'OPEN_CHARGE_MAP_KEY', OPEN_CHARGE_MAP_KEY)
+app.config["MAP_BOX_API_KEY"] = os.environ.get(
+    'MAP_BOX_API_KEY', MAP_BOX_API_KEY)
 app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get(
     'DATABASE_URL', f"postgresql://localhost/chargR?user=postgres&password=postgresql")
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
