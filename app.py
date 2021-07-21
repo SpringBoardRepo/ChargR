@@ -22,7 +22,6 @@ MAP_BOX_BASE_URL = "https://api.mapbox.com/geocoding/v5/mapbox.places/"
 # toolbar = DebugToolbarExtension(app)
 
 connect_db(app)
-db.create_all()
 
 
 @app.route('/')
