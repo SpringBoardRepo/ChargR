@@ -1,17 +1,32 @@
 
-from flask import Flask, redirect, render_template, flash, session, request, jsonify
+from flask import Flask, config, redirect, render_template, flash, session, request, jsonify
 from models import Comment, User, connect_db, db
 import os
-from secret import LOCAL_SECRET_KEY, OPEN_CHARGE_MAP_KEY, PSQL_PASS, MAP_BOX_API_KEY, PSQL_USER
+# from secret import LOCAL_SECRET_KEY, OPEN_CHARGE_MAP_KEY, PSQL_PASS, MAP_BOX_API_KEY, PSQL_USER
 from forms import SignUpForm, LoginForm, FeedbackForm
 from sqlalchemy.exc import IntegrityError
 import requests
 
 app = Flask(__name__)
 
+# OPEN_CHARGE_MAP_KEY = config('OPEN_CHARGE_MAP_KEY')
+# MAP_BOX_API_KEY = config('MAP_BOX_API_KEY')
+# LOCAL_SECRET_KEY = config('LOCAL_SECRET_KEY')
+
+OPEN_CHARGE_MAP_KEY = os.environ.get('OPEN_CHARGE_MAP_KEY')
+MAP_BOX_API_KEY = os.environ.get('MAP_BOX_API_KEY')
+LOCAL_SECRET_KEY = os.environ.get('LOCAL_SECRET_KEY')
+
 app.config["SECRET_KEY"] = os.environ.get('SECERT_KEY', LOCAL_SECRET_KEY)
+app.config["OPEN_CHARGE_MAP_KEY"] = os.environ.get(
+    'OPEN_CHARGE_MAP_KEY', OPEN_CHARGE_MAP_KEY)
+app.config["MAP_BOX_API_KEY"] = os.environ.get(
+    'MAP_BOX_API_KEY', MAP_BOX_API_KEY)
+
+
 app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get(
-    'DATABASE_URL', f"postgresql://localhost/chargR?user={PSQL_USER}&password={PSQL_PASS}")
+    'DATABASE_URL', f"postgresql://localhost/chargR?user=postgres&password=postgresql").replace(
+        "postgres://", "postgresql://", 1)
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config['SQLALCHEMY_ECHO'] = True
 app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
@@ -22,7 +37,6 @@ MAP_BOX_BASE_URL = "https://api.mapbox.com/geocoding/v5/mapbox.places/"
 # toolbar = DebugToolbarExtension(app)
 
 connect_db(app)
-db.create_all()
 
 
 @app.route('/')
@@ -126,8 +140,8 @@ def signup_page():
         try:
             db.session.commit()
         except IntegrityError:
-            form.username.errors.append('Username taken.  Please pick another')
-            return render_template('register.html', form=form)
+            form.username.errors.append('Username taken. Please pick another')
+            return render_template('signup.html', form=form)
 
         session['username'] = new_user.username
         flash('Welcome, Successfully Created Your Account', 'success')
@@ -148,7 +162,6 @@ def station_detail_page(id):
 
 
 ############################# User Feedback ###############################
-
 
 @ app.route('/station/detail/<int:station_id>/add-comment/<string:username>', methods=['GET', 'POST'])
 def add_feedback(station_id, username):
