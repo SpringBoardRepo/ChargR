@@ -2,3 +2,12 @@ body,
 html {
   height: 100%;
 }
+.card-title {
+  overflow-wrap: break-word;
+  max-width: 30vw;
+}
+
+#placeholder {
+  width: 50%;
+  display: inline-flex;
+}

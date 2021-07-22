@@ -30,4 +30,4 @@ class SignUpForm(FlaskForm):
 
 class FeedbackForm(FlaskForm):
 
-    content = StringField('Comment', validators=[validators.InputRequired()])
+    comment = StringField('Comment', validators=[validators.InputRequired()])

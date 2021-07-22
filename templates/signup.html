@@ -1,17 +1,37 @@
-{% extends 'base.html '%}{% block content %}
-<div class="container justify-content-center">
-  <h1 class="text-center">SignUp Here</h1>
-  <form method="POST">
-    {{ form.hidden_tag() }} {% for field in form if field.widget.input_type !=
-    'hidden'%}
-    <p>
-      {{field.label}} {{field(class_="form-group form-control mx-sm-3 mb-2")}}
-      {% for err in field.errors %}
-      <span class="form-text text-danger">{{err}}</span> {% endfor %}
-    </p>
-    {% endfor %}
-    <button class="btn btn-success">Submit</button>
-  </form>
-</div>
+{% extends 'base.html' %}{% block content %}
+<div
+  id="background-image"
+  class="bg-image img-fluid"
+  style="
+    background-image: url('https://assets.morningconsult.com/wp-uploads/2021/02/08110505/210205_EVS-overview_feature.png');
+    height: 120%;
+    width: 100%;
+    background-repeat: no-repeat;
+    background-size: cover;
+  "
+>
+  <div class="container mt-5">
+    <div
+      class="text-light col-xl-5 col-lg-6 col-md-8 col-sm-10 mx-auto form p-4"
+    >
+      <div class="shadow p-3 mb-5 bg-body rounded">
+        <h3 class="text-center text-light">SignUp Here!!!</h3>
+        <div class="px-3">
+          <form method="POST" class="form-group">
+            {{ form.hidden_tag() }} {% for field in form if
+            field.widget.input_type != 'hidden'%}
+            <p>
+              <b> {{field.label(class_='display-inline mt-4')}}</b>
+              {{field(class_='form-control')}} {% for err in field.errors %}
+              <span class="form-text text-danger">{{err}}</span> {% endfor %}
+            </p>
+            {% endfor %}
+            <button class="btn btn-primary btn-md mt-3">SignUp</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
 
-{% endblock%}
+  {% endblock%}
+</div>
