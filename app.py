@@ -21,7 +21,7 @@ app.config["MAP_BOX_API_KEY"] = os.environ.get(
 
 
 app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get(
-    'DATABASE_URL', f"postgresql://localhost/chargR?user=postgres&password=postgresql").replace(
+    'DATABASE_URL', f"postgresql://localhost/chargR?user={username}&password={password}").replace(
         "postgres://", "postgresql://", 1)
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config['SQLALCHEMY_ECHO'] = True
@@ -64,7 +64,7 @@ def get_info(coords):
     longitude = coords['lng']
 
     response = requests.get(f'{API_BASE_URL}', params={'key': OPEN_CHARGE_MAP_KEY,
-                                                       'countrycode': 'US', 'latitude': latitude, 'longitude': longitude})
+                                                       'countrycode': 'US', 'latitude': latitude, 'longitude': longitude, 'maxresults': 20})
 
     return response.json()
 
@@ -107,7 +107,7 @@ def logout():
     """" User Logout """
     session.pop('username')
     flash('Successfully logout', 'success')
-    return redirect('/home')
+    return redirect('/login')
 
 
 @ app.route('/signup', methods=['GET', 'POST'])

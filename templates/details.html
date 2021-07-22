@@ -1,25 +1,24 @@
 {% extends 'base.html' %} {% block content %}
 <div class="container">
   {% for d in data %}
-
     <div class="card text-left mt-5">
         <ul>
-            <h6 class="card-title mt-3 display-4 d-block bg-gradient"><b>{{d.OperatorInfo.Title}}</b></h6>
-            <h6><i class="fas fa-location-arrow mt-3"></i>Location Detail</h6>
+            <h6 class="card-title mt-3 display-4 alert alert-primary d-inline-flex bg-gradient"><b>{{d.OperatorInfo.Title}}</b></h6>
+            <h6 class="text-info"><i class="fas fa-location-arrow mt-3"></i>Location Detail</h6>
                 <p class="card-text">
                     <p>{{d.AddressInfo.Title}}</p>
                     <p>{{d.AddressInfo.AddressLine1}}</p>
                     {{d.AddressInfo.Town}} {{d.AddressInfo.StateOrProvince}}
                     {{d.AddressInfo.Postcode}}
-                    <p>{{d.AddressInfo.ContactTelephone1}}</p>
+                    <p><a href="tel:{{d.AddressInfo.ContactTelephone1}}">{{d.AddressInfo.ContactTelephone1}}</a></p>
                     <p>{{d.AddressInfo.Country.Title}}</p>
-                    WebsiteURL - {{d.OperatorInfo.WebsiteURL}}
+                    WebsiteURL - <a href="{{d.OperatorInfo.WebsiteURL}}">{{d.OperatorInfo.WebsiteURL}}</a> 
                 </p>
         </ul>
     </div>
     <div class="card text-left mt-3">
         <ul>
-            <h6 class="card-title mt-2"><i class="fas fa-book-open"></i>Usage Restrictions</h6>
+            <h6 class="card-title mt-2 text-info"><i class="fas fa-book-open"></i>Usage Restrictions</h6>
             <p class="card-text "></p>
                 <p><b> Operational Status - </b> 
                    {% if d.StatusType.Title %} {% else %} Unknown {% endif %}</p>
@@ -30,7 +29,7 @@
     </div>
     <div class="card text-left mt-3">
         <ul>
-            <h6 class="card-title mt-2"><i class="fas fa-charging-station"></i></i>Equipment Details</h6>
+            <h6 class="card-title mt-2 text-info"><i class="fas fa-charging-station"></i></i>Equipment Details</h6>
             <p class="card-text">
                 {% for conn in d.Connections %}
                 <p>Connections -
@@ -52,8 +51,10 @@
        </form>
        <p> <h5><b><span class="d-block p-2 bg-success text-dark">Comments</span></b></h5> 
             {% for comment in comments %}
-            <ul class="card shadow bg-body rounded">
-               <b>{{comment.user_name}}</b> - {{comment.comment}}
+            <ul class="card shadow bg-body rounded mt-2">
+               <b>{{comment.user_name}}</b>
+               <span class="text-muted">{{ comment.timestamp.strftime('%d %B %Y') }}</span>
+                - {{comment.comment}}
             </ul>
             {% endfor %}
         </p>

@@ -1,39 +1,45 @@
 {% extends 'base.html'%} {% block content%}
 <div
   id="background-image"
-  class="bg-image img-fluid col-md-auto col-sm-12 col-lg-12"
+  class="img-fluid"
   style="
     background-image: url('https://unified.walletgenius.com/walletgenius/wp-content/uploads/2021/04/Electric-car-vs-gas-costs-scaled.jpg');
     height: 100%;
     width: 100%;
     background-repeat: no-repeat;
     background-size: cover;
+    background-position: center;
   "
 >
   <div class="container text-center mt-5">
-    <h1 class="display-3 text-dark mt-5"><b>Time is to Charge your Car</b></h1>
-    <h3 class="mt-5 text-dark">
+    <h3 id="home-text" class="text-dark" style="font-size: 5vw">
+      <b>Time is to Charge your Car</b>
+    </h3>
+    <h6 class="mt-5 text-dark" style="font-size: 2.5vw">
       <p>
         Electric cars are really very cool. Air-source heat pumps are great.
       </p>
       <p>The time is right for electric cars - in fact the time is critical.</p>
-    </h3>
+    </h6>
     <form action="/station/results">
       <div class="input-group mt-5" id="placeholder">
         <input
           type="text"
           class="form-control"
           placeholder="Enter location"
-          name="location" required 
+          name="location"
+          required
         />
         <button class="btn btn-primary" type="submit" id="search-button">
           Search
         </button>
       </div>
     </form>
-     <p>
-        <h6 class="text-danger"> <b>Please be specific for location for better results(include State Name)</b> </h6>
+    <h6 class="text-danger container-fluid" style="font-size: 1.5vw">
+      <p>
+        Please be specific for location for better results(include State Name)
       </p>
+    </h6>
   </div>
 </div>
 {% endblock %}
