@@ -1,6 +1,6 @@
 # ChargR
 - ChargR is a an application that allow user to search a Electric Car Charging Station.
-**Visit it here**: https://car-charging-station.herokuapp.com/home 
+- **Visit it here**: https://car-charging-station.herokuapp.com/home 
 
 # Search By Location
 - To start, users enter their location (or any location). Users will then see charging station and their details bugs that can be found in that area.
