@@ -2,16 +2,16 @@
 from flask import Flask, redirect, render_template, flash, session, request
 from models import Comment, User, connect_db, db
 import os
-# from secret import LOCAL_SECRET_KEY, OPEN_CHARGE_MAP_KEY, PSQL_PASS, MAP_BOX_API_KEY, PSQL_USER
+from secret import LOCAL_SECRET_KEY, OPEN_CHARGE_MAP_KEY, PSQL_PASS, MAP_BOX_API_KEY, PSQL_USER
 from forms import SignUpForm, LoginForm, FeedbackForm
 from sqlalchemy.exc import IntegrityError
 import requests
 
 app = Flask(__name__)
 
-OPEN_CHARGE_MAP_KEY = os.environ.get('OPEN_CHARGE_MAP_KEY')
-MAP_BOX_API_KEY = os.environ.get('MAP_BOX_API_KEY')
-LOCAL_SECRET_KEY = os.environ.get('SECRET_KEY')
+# OPEN_CHARGE_MAP_KEY = os.environ.get('OPEN_CHARGE_MAP_KEY')
+# MAP_BOX_API_KEY = os.environ.get('MAP_BOX_API_KEY')
+# LOCAL_SECRET_KEY = os.environ.get('SECRET_KEY')
 
 app.config["SECRET_KEY"] = os.environ.get('SECERT_KEY', LOCAL_SECRET_KEY)
 app.config["OPEN_CHARGE_MAP_KEY"] = os.environ.get(
@@ -64,7 +64,7 @@ def get_info(coords):
     longitude = coords['lng']
 
     response = requests.get(f'{API_BASE_URL}', params={'key': OPEN_CHARGE_MAP_KEY,
-                                                       'countrycode': 'US', 'latitude': latitude, 'longitude': longitude})
+                                                       'countrycode': 'US', 'latitude': latitude, 'longitude': longitude, 'maxresults': 20})
 
     return response.json()
 
@@ -107,7 +107,7 @@ def logout():
     """" User Logout """
     session.pop('username')
     flash('Successfully logout', 'success')
-    return redirect('/home')
+    return redirect('/login')
 
 
 @ app.route('/signup', methods=['GET', 'POST'])
