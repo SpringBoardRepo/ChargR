@@ -20,7 +20,8 @@ app.config["MAP_BOX_API_KEY"] = os.environ.get(
     'MAP_BOX_API_KEY', MAP_BOX_API_KEY)
 
 
-app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get('DATABASE_URL').replace(
+app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get(
+    'DATABASE_URL').replace(
         "postgres://", "postgresql://", 1)
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config['SQLALCHEMY_ECHO'] = True
