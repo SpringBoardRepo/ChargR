@@ -1,29 +1,35 @@
 {% extends 'base.html' %} {% block content %}
 <div class="container">
-  {% for d in data %}
-    <div class="card text-left mt-5">
-        <ul> 
-            {% if d.OperatorInfo.Title %}
-            <h6 class="card-title mt-3 display-4 alert alert-primary d-inline-flex bg-gradient" style="font-size: 4.5vw;">
-                <b>{{d.OperatorInfo.Title}}</b></h6>
-                {% else %}
-                <h6 class="card-title mt-3 display-4 alert alert-primary d-inline-flex bg-gradient" style="font-size: 4.5vw;">
-                <b>{{d.AddressInfo.Title}}</b></h6>
+    {% for d in data %}
+        <div class="card text-left mt-5">
+            <ul> 
+                {% if d.OperatorInfo.Title %}
+                    <h6 class="card-title mt-3 display-4 alert alert-primary d-inline-flex bg-gradient" style="font-size: 4.5vw;">
+                        <b>{{d.OperatorInfo.Title}}</b></h6>
+                 {% else %}
+                    <h6 class="card-title mt-3 display-4 alert alert-primary d-inline-flex bg-gradient" style="font-size: 4.5vw;">
+                    <b>{{d.AddressInfo.Title}}</b></h6>
                 {% endif %}
-            <h6 class="text-info"><i class="fas fa-location-arrow mt-3"></i>Location Detail</h6>
-                <p class="card-text">
-                    <p>{{d.AddressInfo.Title}}</p>
-                    <p>{{d.AddressInfo.AddressLine1}}</p>
-                    {{d.AddressInfo.Town}} {{d.AddressInfo.StateOrProvince}}
-                    {{d.AddressInfo.Postcode}}
-                    <p><a href="tel:{{d.AddressInfo.ContactTelephone1}}">{{d.AddressInfo.ContactTelephone1}}</a></p>
-                    <p>{{d.AddressInfo.Country.Title}}</p>
-                   {% if d.OperatorInfo.WebsiteURL %} WebsiteURL - <a href="{{d.OperatorInfo.WebsiteURL}}">{{d.OperatorInfo.WebsiteURL}}</a> {% endif %}
-                </p>
-        </ul>
-    </div>
-    <div class="card text-left mt-3">
-        <ul>
+                    <h6 class="text-info"><i class="fas fa-location-arrow mt-3"></i>Location Detail</h6>
+                    <p class="card-text">
+                        <div class="col-auto img-fluid">
+                            <img src="https://www.dwrl.utexas.edu/wp-content/uploads/2016/11/google-maps-new-interface1.jpg"class="map-img img-fluid" onclick="window.open('https://map.openchargemap.io/?mode=embedded')" alt="">
+                        </div>
+                        <p>{{d.AddressInfo.Title}}</p>
+                        <p>{{d.AddressInfo.AddressLine1}}</p>
+                            {{d.AddressInfo.Town}} {{d.AddressInfo.StateOrProvince}}
+                            {{d.AddressInfo.Postcode}}
+                         {% if d.AddressInfo.ContactTelephone1 %}
+                        <p><a href="tel:{{d.AddressInfo.ContactTelephone1}}">{{d.AddressInfo.ContactTelephone1}}</a></p>
+                        {% endif %}
+                        <p>{{d.AddressInfo.Country.Title}}</p>
+                        {% if d.OperatorInfo.WebsiteURL %} WebsiteURL - <a href="{{d.OperatorInfo.WebsiteURL}}">{{d.OperatorInfo.WebsiteURL}}</a> {% endif %}
+                    </p>
+                    
+            </ul>
+        </div>
+            <div class="card text-left mt-3">
+             <ul>
             <h6 class="card-title mt-2 text-info"><i class="fas fa-book-open"></i>Usage Restrictions</h6>
             <p class="card-text "></p>
                 <p><b> Operational Status - </b> 
@@ -31,10 +37,10 @@
                 <p><b>Usage - </b>{{d.UsageType.Title}}</p>
             </p>
       
-        </ul>
-    </div>
-    <div class="card text-left mt-3">
-        <ul>
+            </ul>
+          </div>
+        <div class="card text-left mt-3">
+            <ul>
             <h6 class="card-title mt-2 text-info"><i class="fas fa-charging-station"></i></i>Equipment Details</h6>
             <p class="card-text">
                 {% for conn in d.Connections %}
@@ -45,8 +51,8 @@
                 {% endfor %}
             </p>
      
-        </ul>
-    </div>
+            </ul>
+        </div>
     <div>
         <form action="" method="POST" class="mt-3">
             {% if session['username'] %}  

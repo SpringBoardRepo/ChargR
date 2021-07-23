@@ -24,3 +24,11 @@ html {
 #home-text {
   margin-top: 3.5rem;
 }
+
+.map-img {
+  float: right;
+  display: flex;
+  background-size: center;
+  width: 30%;
+  height: 50%;
+}
