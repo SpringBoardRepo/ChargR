@@ -2,8 +2,14 @@
 <div class="container">
   {% for d in data %}
     <div class="card text-left mt-5">
-        <ul>
-            <h6 class="card-title mt-3 display-4 alert alert-primary d-inline-flex bg-gradient" style="font-size: 5vw;"><b>{{d.OperatorInfo.Title}}</b></h6>
+        <ul> 
+            {% if d.OperatorInfo.Title %}
+            <h6 class="card-title mt-3 display-4 alert alert-primary d-inline-flex bg-gradient" style="font-size: 4.5vw;">
+                <b>{{d.OperatorInfo.Title}}</b></h6>
+                {% else %}
+                <h6 class="card-title mt-3 display-4 alert alert-primary d-inline-flex bg-gradient" style="font-size: 4.5vw;">
+                <b>{{d.AddressInfo.Title}}</b></h6>
+                {% endif %}
             <h6 class="text-info"><i class="fas fa-location-arrow mt-3"></i>Location Detail</h6>
                 <p class="card-text">
                     <p>{{d.AddressInfo.Title}}</p>
@@ -12,7 +18,7 @@
                     {{d.AddressInfo.Postcode}}
                     <p><a href="tel:{{d.AddressInfo.ContactTelephone1}}">{{d.AddressInfo.ContactTelephone1}}</a></p>
                     <p>{{d.AddressInfo.Country.Title}}</p>
-                    WebsiteURL - <a href="{{d.OperatorInfo.WebsiteURL}}">{{d.OperatorInfo.WebsiteURL}}</a> 
+                   {% if d.OperatorInfo.WebsiteURL %} WebsiteURL - <a href="{{d.OperatorInfo.WebsiteURL}}">{{d.OperatorInfo.WebsiteURL}}</a> {% endif %}
                 </p>
         </ul>
     </div>
@@ -21,7 +27,7 @@
             <h6 class="card-title mt-2 text-info"><i class="fas fa-book-open"></i>Usage Restrictions</h6>
             <p class="card-text "></p>
                 <p><b> Operational Status - </b> 
-                   {% if d.StatusType.Title %} {% else %} Unknown {% endif %}</p>
+                   {% if d.StatusType.Title %} {{d.StatusType.Title}} {% else %} Unknown {% endif %}</p>
                 <p><b>Usage - </b>{{d.UsageType.Title}}</p>
             </p>
       
