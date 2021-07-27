@@ -2,19 +2,19 @@
 - ChargR is a an application that allow user to search a Electric Car Charging Station.
 - **Visit it here**: https://car-charging-station.herokuapp.com/home 
 
-# Search By Location
+## Search By Location
 - To start, users enter their location (or any location). Users will then see charging station and their details bugs that can be found in that area.
 
-# Click To Learn
+## Click To Learn
 - User can check the station details in more info where user can see charger type, location, and about the station services. 
 
-# Login/SignUp Safely
+## Login/SignUp Safely
 - Users can create an account login with password hashing using Flask-Bcrypt.
 
-# Feedback 
+## Feedback 
 - LoggedIn users can share their experience to leave a comment.
 
-# Technology Used
+## Technology Used
  - Python
  - Flask
  - Jinja
@@ -28,5 +28,5 @@
  - Bootswatch
  - FontAwesome
  - Upsplash 
- - Open Charge Map https://openchargemap.org/site/develop/api
- - MapBox https://docs.mapbox.com/api/search/geocoding/ (for geolocation)  
+ - [Open Charge Map](https://openchargemap.org/site/develop/api)
+ - [MapBox](https://docs.mapbox.com/api/search/geocoding/) (for geolocation)  
