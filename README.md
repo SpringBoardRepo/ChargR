@@ -5,8 +5,14 @@
 # Search By Location
 - To start, users enter their location (or any location). Users will then see charging station and their details bugs that can be found in that area.
 
+# Click To Learn
+- User can check the station details in more info where user can see charger type, location, and about the station services. 
+
 # Login/SignUp Safely
 - Users can create an account login with password hashing using Flask-Bcrypt.
+
+# Feedback 
+- LoggedIn users can share their experience to leave a comment.
 
 # Technology Used
  - Python
