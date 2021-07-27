@@ -3,7 +3,7 @@
 - **Visit it here**: https://car-charging-station.herokuapp.com/home 
 
 ## Search By Location
-- To start, users enter their location (or any USA location). Users will then see charging station and their details bugs that can be found in that area.
+- To start, users enter their location (or any USA location). Users will then see charging station and their details that can be found in that area.
 
 ## Click To Learn
 - User can check the station details in more info where user can see charger type, location, and about the station services. 
