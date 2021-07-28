@@ -1,5 +1,6 @@
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
+from datetime import datetime
 
 db = SQLAlchemy()
 bcrypt = Bcrypt()
@@ -61,3 +62,6 @@ class Comment(db.Model):
     user_name = db.Column(db.Text, db.ForeignKey('users.username'))
 
     station_id = db.Column(db.Integer, nullable=False)
+
+    timestamp = db.Column(db.DateTime, nullable=False,
+                          default=datetime.utcnow())

@@ -1,5 +1,5 @@
 
-from flask import Flask, config, redirect, render_template, flash, session, request, jsonify
+from flask import Flask, redirect, render_template, flash, session, request
 from models import Comment, User, connect_db, db
 import os
 # from secret import LOCAL_SECRET_KEY, OPEN_CHARGE_MAP_KEY, PSQL_PASS, MAP_BOX_API_KEY, PSQL_USER
@@ -9,13 +9,9 @@ import requests
 
 app = Flask(__name__)
 
-# OPEN_CHARGE_MAP_KEY = config('OPEN_CHARGE_MAP_KEY')
-# MAP_BOX_API_KEY = config('MAP_BOX_API_KEY')
-# LOCAL_SECRET_KEY = config('LOCAL_SECRET_KEY')
-
 OPEN_CHARGE_MAP_KEY = os.environ.get('OPEN_CHARGE_MAP_KEY')
 MAP_BOX_API_KEY = os.environ.get('MAP_BOX_API_KEY')
-LOCAL_SECRET_KEY = os.environ.get('LOCAL_SECRET_KEY')
+LOCAL_SECRET_KEY = os.environ.get('SECRET_KEY')
 
 app.config["SECRET_KEY"] = os.environ.get('SECERT_KEY', LOCAL_SECRET_KEY)
 app.config["OPEN_CHARGE_MAP_KEY"] = os.environ.get(
@@ -24,8 +20,9 @@ app.config["MAP_BOX_API_KEY"] = os.environ.get(
     'MAP_BOX_API_KEY', MAP_BOX_API_KEY)
 
 
-app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get('DATABASE_URL', "postgres://fdhdrhyrkdqtem:e09aee341ff428b01a6c8361046303c12590c4c2cf87c14f75892e65ee469709@ec2-23-23-164-251.compute-1.amazonaws.com:5432/ddmmv3fthjp8ru")
-
+app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get(
+    'DATABASE_URL').replace(
+        "postgres://", "postgresql://", 1)
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config['SQLALCHEMY_ECHO'] = True
 app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
@@ -33,7 +30,6 @@ app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 
 API_BASE_URL = 'https://api.openchargemap.io/v3/poi/'
 MAP_BOX_BASE_URL = "https://api.mapbox.com/geocoding/v5/mapbox.places/"
-# toolbar = DebugToolbarExtension(app)
 
 connect_db(app)
 
@@ -61,12 +57,6 @@ def get_coords(location):
     coords = {'lat': lat, 'lng': lng}
     return coords
 
-# def get_results(data):
-#     """turn json into python"""
-
-#     res = json.loads(data.text)
-#     return res
-
 
 def get_info(coords):
     """Get the coords and return data """
@@ -74,7 +64,7 @@ def get_info(coords):
     longitude = coords['lng']
 
     response = requests.get(f'{API_BASE_URL}', params={'key': OPEN_CHARGE_MAP_KEY,
-                                                       'countrycode': 'US', 'latitude': latitude, 'longitude': longitude})
+                                                       'countrycode': 'US', 'latitude': latitude, 'longitude': longitude, 'maxresults': 20})
 
     return response.json()
 
@@ -117,7 +107,7 @@ def logout():
     """" User Logout """
     session.pop('username')
     flash('Successfully logout', 'success')
-    return redirect('/home')
+    return redirect('/login')
 
 
 @ app.route('/signup', methods=['GET', 'POST'])

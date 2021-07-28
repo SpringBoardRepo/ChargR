@@ -2,3 +2,33 @@ body,
 html {
   height: 100%;
 }
+#re-card-title {
+  overflow-wrap: break-word;
+  max-width: 30vw;
+}
+
+#placeholder {
+  width: 65%;
+  display: inline-flex;
+}
+
+#signup-background-image {
+  background-image: url("https://assets.morningconsult.com/wp-uploads/2021/02/08110505/210205_EVS-overview_feature.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  height: 130%;
+}
+
+#home-text {
+  margin-top: 3.5rem;
+}
+
+.map-img {
+  float: right;
+  display: flex;
+  background-size: center;
+  width: 30%;
+  height: 50%;
+}
