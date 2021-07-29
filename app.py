@@ -166,4 +166,4 @@ def add_feedback(station_id, username):
         db.session.add(comment)
         db.session.commit()
         return redirect(f'/station/detail/{station_id}')
-    return render_template('feedback.html', form=form, station_id=station_id)
+    return render_template('feedback.html', form=form)

@@ -1,6 +1,5 @@
 {% extends 'base.html' %} {% block content %}
 <div class="container card-group mt-3">
-  {% if result %}
   {% for loc in result %}
   <div class="mt-5">
     <ul>
@@ -31,11 +30,5 @@
     </ul>
   </div>
   {% endfor %}
-  {% else %}
-   <div class=" card mt-5 alert alert-warning text-center">
-        <h2 class= 'text-black-50'> No result Found.</h2>
-        <h4 class= 'text-black-50'>May be Location is not correct or try with State Name</h4>
-     </div>
-  {% endif%}
 </div>
 {% endblock %}
