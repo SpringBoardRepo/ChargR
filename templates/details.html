@@ -58,7 +58,7 @@
             {% if session['username'] %}  
                 <a href="/station/detail/{{d.ID}}/add-comment/{{session['username']}}"class="btn btn-primary">Leave a Feedback </a>
             {% else %}
-                <a href="/login" class="btn btn-info">Login to give a feedback </a>
+                <a href="/login" class="btn btn-info">Login to give a Comment </a>
             {% endif %}
        </form>
        <p> <h5><b><span class="d-block p-2 bg-success text-dark">Comments</span></b></h5> 
