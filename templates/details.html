@@ -47,7 +47,7 @@
                 <p>Connections -
                     <b> {{conn.ConnectionType.Title}} </b></p>
                 <p>  PowerKW - {% if conn.PowerKW %} {{conn.PowerKW}} KW {% endif %}
-                   CurrentType -  {% if conn.Amps %} {{conn.Amps}} A {% endif %} {% if conn.Voltage %}{{conn.Voltage}} V{% endif %} </p>
+                    CurrentType -  {% if conn.Amps %} {{conn.Amps}} A {% endif %} {% if conn.Voltage %}{{conn.Voltage}} V{% endif %} </p>
                   {{conn.CurrentType.Title}} 
                 {% endfor %}
             </p>
