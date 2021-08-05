@@ -94,7 +94,7 @@ def login_page():
         user = User.authenticate(email, password)
         if user:
             session['username'] = user.username
-            flash(f'Welcome back!,{user.username}', 'success')
+            flash(f'Welcome back,{user.username}!!!', 'success')
             return redirect(f'/home')
         else:
             form.email.errors = ['Invalid username/password']
