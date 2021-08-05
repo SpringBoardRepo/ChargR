@@ -13,7 +13,7 @@
                     <h6 class="text-info"><i class="fas fa-location-arrow mt-3"></i>Location Detail</h6>
                     <p class="card-text">
                         <div class="col-auto img-fluid">
-                            <img src="https://www.dwrl.utexas.edu/wp-content/uploads/2016/11/google-maps-new-interface1.jpg"class="map-img img-fluid" onclick="window.open('https://map.openchargemap.io/?mode=embedded')" alt="">
+                            <img src="https://www.dwrl.utexas.edu/wp-content/uploads/2016/11/google-maps-new-interface1.jpg"class="map-img img-fluid" latitude = "{{d.AddressInfo.Latitude}}" longitude = "{{d.AddressInfo.Longitude}}">
                         </div>
                         <p>{{d.AddressInfo.Title}}</p>
                         <p>{{d.AddressInfo.AddressLine1}}</p>
@@ -62,7 +62,7 @@
                 <a href="/login" class="btn btn-info">Login to give a Comment </a>
             {% endif %}
        </form>
-       {% if Comments %}
+       {% if comments %}
        <p> <h5><b><span class="d-block p-2 bg-success text-dark">Comments</span></b></h5> 
             {% for comment in comments %}
             <ul class="card shadow bg-body rounded mt-2">
