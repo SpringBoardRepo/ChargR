@@ -20,6 +20,7 @@ https://car-charging-station.herokuapp.com/home
  - Python
  - Flask
  - Jinja
+ - JavaScript
  - Postgres
  - SQL Alchemy
  - Flask-Bcrypt
