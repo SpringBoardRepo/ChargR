@@ -56,7 +56,7 @@
         </ul>
       </div>
     </nav>
-    <div class="container mt-5">
+    <div class="container" id="alerts">
       {% for category, msg in get_flashed_messages(with_categories=True) %}
       <div class="alert alert-{{category}}">{{ msg }}</div>
       {% endfor %}

@@ -32,3 +32,9 @@ html {
   width: 30%;
   height: 50%;
 }
+#alerts {
+  position: fixed;
+  bottom: 10%;
+  margin: 0 5%;
+  max-width: 90%;
+}
